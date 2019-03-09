@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 
 export default class Form extends Component {
     constructor(){
@@ -29,8 +30,7 @@ export default class Form extends Component {
         })
     }
 
-    resetState = (event) => {
-        event.preventDefault();
+    resetState = () => {
         this.setState({
             imgURL: '',
             name: '',
@@ -38,17 +38,34 @@ export default class Form extends Component {
         })
     }
 
+    createProduct = () => {
+        const {imgURL, name, price} = this.state;
+        const {getProducts} = this.props;
+
+        const product = {
+            imgURL: imgURL,
+            name: name,
+            price: price
+        }
+
+        axios.post('/api/product', product).then(response => {
+            getProducts();
+        });
+
+        this.resetState();
+    }
+
   render() {
       console.log(this.state)
     return (
       <div>
-        <form>
+        <div>
             <input type="text" placeholder="name" onChange={(event) => this.handleNameChange(event)}/>
-            <input type="text" placeholder="img url" onChange={(event) => this.handleImgChange(event)}/>
+            <input type="text" placeholder="img url"  onChange={(event) => this.handleImgChange(event)}/>
             <input type="text" placeholder="price" onChange={(event) => this.handlePriceChange(event)}/>
-            <button>Add To Inv</button>
-            <button onClick={(event) => this.resetState(event)}>Cancel</button>
-        </form>
+            <button onClick={() => this.createProduct()}>Add To Inv</button>
+            <button onClick={() => this.resetState()}>Cancel</button>
+        </div> 
       </div>
     )
   }
