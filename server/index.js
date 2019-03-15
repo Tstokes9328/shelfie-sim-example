@@ -26,6 +26,8 @@ massive(CONNECTION_STRING).then(dbInstance => {
 //Endpoints
 app.get('/api/inventory', controller.getAll);
 app.post('/api/product', controller.newProduct);
+app.delete('/api/product/:id', controller.removeProduct);
+app.get('/api/product/:id', controller.getProduct);
 
 app.listen(3001, () => {
     console.log('server is running')

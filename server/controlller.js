@@ -17,6 +17,27 @@ module.exports = {
         }).catch(err => {
             console.log('newProduct:', err);
         });
-        
+    },
+
+    removeProduct: (req, res) => {
+        const db = req.app.get('db');
+        const {id} = req.params;
+
+        db.remove_product([id]).then(response => {
+            res.status(200).send('dude nice, its gone');
+        }).catch(err => {
+            console.log('removeProduct:', err);
+        });
+    },
+
+    getProduct: (req, res) => {
+        const db = req.app.get('db');
+        const {id} = req.params;
+
+        db.get_product([id]).then(response => {
+            res.status(200).send(response[0]);
+        }).catch(err => {
+            console.log('getProduct:', err);
+        });
     }
 }
